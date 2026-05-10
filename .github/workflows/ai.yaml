@@ -8,7 +8,6 @@ permissions:
   contents: write
 
 jobs:
-
   test:
     runs-on: ubuntu-22.04
     env:
@@ -171,17 +170,98 @@ jobs:
 
       - name: Run Dependency Scan
         run: |
+
           pip-audit -r requirements.txt -f json -o dependency-report.json || true
 
           python <<EOF
           import json
+
+          with open("dependency-report.json") as f:
+              data = json.load(f)
+
+          html = """
+          <html>
+          <head>
+              <title>Dependency Report</title>
+
+              <style>
+                  body{
+                      font-family:Arial;
+                      background:#111827;
+                      color:white;
+                      padding:30px;
+                  }
+
+                  h1{
+                      color:#f59e0b;
+                  }
+
+                  .card{
+                      background:#1f2937;
+                      padding:20px;
+                      margin-bottom:20px;
+                      border-radius:12px;
+                  }
+
+                  .vuln{
+                      color:#ef4444;
+                  }
+
+                  .safe{
+                      color:#22c55e;
+                  }
+              </style>
+          </head>
+
+          <body>
+
+              <h1>📦 Dependency Vulnerability Report</h1>
+          """
+
+          vulns = 0
+
+          for dep in data.get("dependencies", []):
+
+              package = dep.get("name")
+              version = dep.get("version")
+              issues = dep.get("vulns", [])
+
+              html += f"<div class='card'>"
+              html += f"<h2>{package} ({version})</h2>"
+
+              if not issues:
+                  html += "<p class='safe'>✔ No vulnerabilities</p>"
+
+              else:
+
+                  vulns += len(issues)
+
+                  for v in issues:
+                      html += f"""
+                      <div class='vuln'>
+                          <p><b>ID:</b> {v.get("id")}</p>
+                          <p><b>Fix Versions:</b> {v.get("fix_versions")}</p>
+                      </div>
+                      <hr>
+                      """
+
+              html += "</div>"
+
+          html += "</body></html>"
+
+          with open("dependency-report.html", "w") as f:
+              f.write(html)
+
+          # STATUS UPDATE
+
           with open("status.json") as f:
               status = json.load(f)
-          data = json.load(open("dependency-report.json"))
-          vulns = sum(len(dep.get("vulns", [])) for dep in data.get("dependencies", []))
+
           status["dependency"] = "passed" if vulns == 0 else "warning"
+
           with open("status.json", "w") as f:
               json.dump(status, f)
+
           EOF
 
       - name: Upload Dependency Reports
@@ -191,6 +271,7 @@ jobs:
           path: |
             dependency-report.json
             status.json
+            dependency-report.html
 
   ai-analysis:
     runs-on: ubuntu-latest
@@ -210,7 +291,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           INPUT=$(cat ai-input.txt)
-      
+
           JSON_PAYLOAD=$(jq -n \
             --arg text "You are a senior DevOps engineer. Analyze this CI/CD pipeline result and suggest improvements:\n$INPUT" \
             '{
@@ -227,15 +308,13 @@ jobs:
                 }
               ]
             }')
-      
+
           curl https://api.openai.com/v1/responses \
             -s \
             -H "Authorization: Bearer $OPENAI_API_KEY" \
             -H "Content-Type: application/json" \
             -d "$JSON_PAYLOAD" \
             > ai-response.json
-
-          
 
       - name: Debug AI Response
         run: cat ai-response.json
