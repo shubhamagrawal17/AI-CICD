@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -16,12 +15,30 @@
 
         body {
             font-family: "Segoe UI", sans-serif;
+
             background:
                 radial-gradient(circle at top left, #ff0080 0%, transparent 25%),
                 radial-gradient(circle at bottom right, #ff6a00 0%, transparent 25%),
                 linear-gradient(135deg, #09090b, #18181b, #27272a);
+
             color: white;
             min-height: 100vh;
+        }
+
+        /* CUSTOM SCROLLBAR */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff0066;
+            border-radius: 20px;
         }
 
         /* HEADER */
@@ -36,7 +53,8 @@
             font-weight: 900;
             letter-spacing: 1px;
 
-            background: linear-gradient(90deg,
+            background:
+                linear-gradient(90deg,
                     #ffcc00,
                     #ff0066,
                     #ff6600);
@@ -44,7 +62,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
 
-            text-shadow: 0 0 20px rgba(255, 0, 102, 0.5);
+            text-shadow:
+                0 0 20px rgba(255, 0, 102, 0.5);
         }
 
         #lastUpdated {
@@ -57,20 +76,27 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            grid-template-columns:
+                repeat(auto-fit, minmax(270px, 1fr));
+
             gap: 24px;
+
             padding: 25px;
         }
 
         /* CARD */
 
         .card {
+
             position: relative;
-            overflow: hidden;
 
-            background: rgba(255, 255, 255, 0.06);
+            overflow: visible;
 
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
 
             backdrop-filter: blur(12px);
 
@@ -88,6 +114,7 @@
         }
 
         .card::before {
+
             content: "";
 
             position: absolute;
@@ -105,9 +132,12 @@
                     transparent);
 
             transform: rotate(25deg);
+
+            pointer-events: none;
         }
 
         .card:hover {
+
             transform:
                 translateY(-8px) scale(1.02);
 
@@ -155,8 +185,17 @@
         .card h3 {
             font-size: 22px;
             margin-bottom: 18px;
-            z-index: 2;
             position: relative;
+            z-index: 2;
+        }
+
+        /* CONTENT */
+
+        .card div,
+        .card a,
+        .card p {
+            position: relative;
+            z-index: 2;
         }
 
         /* STATUS COLORS */
@@ -165,49 +204,71 @@
             color: #00ff9d;
             font-weight: bold;
             font-size: 22px;
-            text-shadow: 0 0 12px rgba(0, 255, 157, 0.5);
+
+            text-shadow:
+                0 0 12px rgba(0, 255, 157, 0.5);
         }
 
         .warning {
             color: #ffd600;
             font-weight: bold;
             font-size: 22px;
-            text-shadow: 0 0 12px rgba(255, 214, 0, 0.5);
+
+            text-shadow:
+                0 0 12px rgba(255, 214, 0, 0.5);
         }
 
         .danger {
             color: #ff1744;
             font-weight: bold;
             font-size: 22px;
-            text-shadow: 0 0 12px rgba(255, 23, 68, 0.5);
+
+            text-shadow:
+                0 0 12px rgba(255, 23, 68, 0.5);
         }
 
         /* BADGES */
 
         .badge {
+
             padding: 8px 14px;
+
             border-radius: 30px;
+
             font-size: 12px;
+
             font-weight: 700;
+
             display: inline-block;
+
             letter-spacing: 0.5px;
         }
 
         .badge-green {
-            background: linear-gradient(90deg, #00c853, #00e676);
+            background:
+                linear-gradient(90deg,
+                    #00c853,
+                    #00e676);
         }
 
         .badge-yellow {
-            background: linear-gradient(90deg, #ff9100, #ffd600);
+            background:
+                linear-gradient(90deg,
+                    #ff9100,
+                    #ffd600);
         }
 
         .badge-red {
-            background: linear-gradient(90deg, #ff1744, #ff5252);
+            background:
+                linear-gradient(90deg,
+                    #ff1744,
+                    #ff5252);
         }
 
-        /* BUTTON */
+        /* BUTTONS */
 
         a {
+
             display: inline-block;
 
             margin-top: 16px;
@@ -234,6 +295,7 @@
         }
 
         a:hover {
+
             transform: scale(1.06);
 
             box-shadow:
@@ -243,9 +305,11 @@
         /* AI BOX */
 
         .ai-box {
+
             text-align: left;
 
-            background: rgba(0, 0, 0, 0.35);
+            background:
+                rgba(0, 0, 0, 0.35);
 
             padding: 16px;
 
@@ -255,11 +319,18 @@
 
             overflow-y: auto;
 
+            overflow-x: auto;
+
+            word-break: break-word;
+
+            scrollbar-width: thin;
+
             font-size: 13px;
 
             line-height: 1.6;
 
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border:
+                1px solid rgba(255, 255, 255, 0.06);
         }
 
         /* BIG CARDS */
@@ -280,6 +351,9 @@
                 font-size: 30px;
             }
 
+            .grid {
+                padding: 16px;
+            }
         }
     </style>
 
@@ -313,7 +387,10 @@
         <div class="card">
             <h3>🧪 Tests</h3>
             <div id="testStatus">...</div>
-            <a href="test-report/report.html">View</a>
+
+            <a href="test-report/report.html" target="_blank">
+                View Report
+            </a>
         </div>
 
         <!-- COVERAGE -->
@@ -328,7 +405,10 @@
         <div class="card">
             <h3>🧹 Lint</h3>
             <div id="lintStatus">...</div>
-            <a href="lint-report/flake8-report/index.html">View</a>
+
+            <a href="lint-report/flake8-report/index.html" target="_blank">
+                View Report
+            </a>
         </div>
 
         <!-- SECURITY -->
@@ -336,7 +416,10 @@
         <div class="card">
             <h3>🔐 Security</h3>
             <div id="securityStatus">...</div>
-            <a href="security-report/bandit-report.html">View</a>
+
+            <a href="security-report/bandit-report.html" target="_blank">
+                View Report
+            </a>
         </div>
 
         <!-- DEPENDENCY -->
@@ -344,21 +427,37 @@
         <div class="card">
             <h3>📦 Dependency</h3>
             <div id="dependencyStatus">...</div>
-            <a href="dependency-report/dependency-report.html">View</a>
+
+            <a href="dependency-report/dependency-report.html" target="_blank">
+                View Report
+            </a>
         </div>
 
         <!-- AI -->
 
         <div class="card highlight">
+
             <h3>🤖 AI Insights</h3>
 
-            <div id="aiSummary" class="badge badge-yellow">Analyzing...</div>
+            <div id="aiSummary" class="badge badge-yellow">
+
+                Analyzing...
+
+            </div>
 
             <br><br>
 
-            <div id="aiContent" class="ai-box">Loading AI insights...</div>
+            <div id="aiContent" class="ai-box">
 
-            <a href="ai-report/ai-report.txt" target="_blank">Full Report</a>
+                Loading AI insights...
+
+            </div>
+
+            <a href="ai-report/ai-report.txt" target="_blank">
+
+                Full Report
+
+            </a>
 
         </div>
 
@@ -367,70 +466,142 @@
     <script>
 
         // STATUS DATA
+
         fetch('status.json?t=' + Date.now())
+
             .then(res => res.json())
+
             .then(data => {
 
                 function setStatus(id, value) {
-                    const el = document.getElementById(id);
+
+                    const el =
+                        document.getElementById(id);
 
                     if (value === "passed") {
+
                         el.innerHTML = "✔ Passed";
                         el.className = "success";
+
                     } else if (value === "warning") {
+
                         el.innerHTML = "⚠ Warning";
                         el.className = "warning";
+
                     } else {
+
                         el.innerHTML = "❌ Failed";
                         el.className = "danger";
                     }
                 }
 
                 setStatus("testStatus", data.tests);
+
                 setStatus("lintStatus", data.lint);
+
                 setStatus("securityStatus", data.security);
+
                 setStatus("dependencyStatus", data.dependency);
 
-                let cov = parseFloat(data.coverage) || 0;
-                document.getElementById("coverageStatus").innerHTML = cov + "%";
+                // COVERAGE
+
+                let cov =
+                    parseFloat(data.coverage) || 0;
+
+                document.getElementById(
+                    "coverageStatus"
+                ).innerHTML = cov + "%";
 
                 // RISK LOGIC
+
                 let risk = "LOW";
-                if (data.lint === "warning" || data.security === "warning" || data.dependency === "warning") {
+
+                if (
+                    data.lint === "warning" ||
+                    data.security === "warning" ||
+                    data.dependency === "warning"
+                ) {
+
                     risk = "MEDIUM";
                 }
+
                 if (data.tests !== "passed") {
+
                     risk = "HIGH";
                 }
 
                 // DEPLOY LOGIC
-                let deploy = risk === "LOW" ? "SAFE TO DEPLOY ✅" : "NOT SAFE ❌";
 
-                document.getElementById("riskScore").innerHTML = risk;
-                document.getElementById("deployStatus").innerHTML = deploy;
+                let deploy =
+                    risk === "LOW"
+                        ? "SAFE TO DEPLOY ✅"
+                        : "NOT SAFE ❌";
 
-                document.getElementById("lastUpdated").innerText =
-                    "Last updated: " + new Date().toLocaleString();
+                document.getElementById(
+                    "riskScore"
+                ).innerHTML = risk;
+
+                document.getElementById(
+                    "deployStatus"
+                ).innerHTML = deploy;
+
+                document.getElementById(
+                    "lastUpdated"
+                ).innerText =
+                    "Last updated: " +
+                    new Date().toLocaleString();
+
             });
 
         // AI DATA
+
         fetch('ai-report/ai-report.txt?t=' + Date.now())
+
             .then(res => res.text())
+
             .then(text => {
 
-                document.getElementById("aiContent").innerText = text;
+                document.getElementById(
+                    "aiContent"
+                ).innerText = text;
 
-                if (text.toLowerCase().includes("warning") || text.toLowerCase().includes("issue")) {
-                    document.getElementById("aiSummary").innerText = "⚠ Issues Detected";
-                    document.getElementById("aiSummary").className = "badge badge-yellow";
+                if (
+                    text.toLowerCase().includes("warning") ||
+                    text.toLowerCase().includes("issue")
+                ) {
+
+                    document.getElementById(
+                        "aiSummary"
+                    ).innerText =
+                        "⚠ Issues Detected";
+
+                    document.getElementById(
+                        "aiSummary"
+                    ).className =
+                        "badge badge-yellow";
+
                 } else {
-                    document.getElementById("aiSummary").innerText = "✔ Healthy Pipeline";
-                    document.getElementById("aiSummary").className = "badge badge-green";
+
+                    document.getElementById(
+                        "aiSummary"
+                    ).innerText =
+                        "✔ Healthy Pipeline";
+
+                    document.getElementById(
+                        "aiSummary"
+                    ).className =
+                        "badge badge-green";
                 }
 
             })
+
             .catch(() => {
-                document.getElementById("aiContent").innerText = "AI report not found";
+
+                document.getElementById(
+                    "aiContent"
+                ).innerText =
+                    "AI report not found";
+
             });
 
     </script>
